@@ -11,13 +11,31 @@ client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
+console.log(`commandFolders: ${commandFolders}`);
+// utility
+
+
 // 각 폴더를 탐색하여 명령어 파일을 로드
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
+	console.log('commandsPath'+commandsPath)
+	// ...\Bot\commands\utility
+
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	// readdirSync로 읽은 경로에 존재하는 모든 파일을 모두 표시, filter로 js로 끝나는파일만
+	// commandFiles에 넣음.
+
+	console.log(commandFiles);
+	// [ 'ping.js', 'server.js', 'user.js' ]
+
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
+		// path.join 여러개의 경로를 하나의 경로로 합쳐줌.
+		console.log(filePath);
+		// ...\utility\ping.js, ...\utility\server.js .. 등등
+
 		const command = require(filePath);
+		console.log(command)
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
 		} else {
