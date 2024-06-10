@@ -1,4 +1,5 @@
-# Discord bot development using node.js (practice)
+# Discord-Bot-practice
+Discord bot development using node.js (practice)
 
 # References
 discord.js doc: https://discord.js.org/docs/packages/discord.js/14.15.3</br>
