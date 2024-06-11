@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
     category: 'utility',
@@ -12,6 +12,12 @@ module.exports = {
             ko: '퐁으로 응답합니다.',
         })*/,
     async execute(interaction){
-        await interaction.reply('Pong!');
+        const embed = new EmbedBuilder()
+            .setColor('#04BF8A')
+            .setDescription('Pong!')
+            .setTimestamp()
+        await interaction.reply({ embeds: [embed] });
+
     },
+    
 };
