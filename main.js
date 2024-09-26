@@ -1,10 +1,40 @@
+import { LavalinkManager } from "lavalink-client";
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Events, GatewayIntentBits, Collection } = require('discord.js');
 const { token } = require('./config.json');
 
+
+
 // 클라이언트 객체 생성
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildVoiceStates,
+	] 
+});
+
+// 인스턴스 생성
+client.lavalink = new LavalinkManager({
+    nodes: [
+        {
+            authorization: "localhoist",
+            host: "localhost",
+            port: 2333,
+            id: "testnode",
+        }
+    ],
+    sendToShard: (guildId, payload) => client.guilds.cache.get(guildId)?.shard?.send(payload),
+    autoSkip: true,
+    client: {
+        id: envConfig.clientId,
+        username: "AKIRABOT",
+    },
+});
+
+client.on("raw", d => client.lavalink.sendRawData(d)); // send raw data to lavalink-client to handle stuff
+client.on("ready", () => {
+    client.lavalink.init(client.user); // init lavalink
+});
 
 client.commands = new Collection();
 
